@@ -1,4 +1,3 @@
-# embedding_store.py
 import uuid
 from typing import List
 from transformers import AutoTokenizer

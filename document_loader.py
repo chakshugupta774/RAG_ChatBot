@@ -1,4 +1,3 @@
-# file: document_loader.py
 import io
 import pandas as pd
 import docx

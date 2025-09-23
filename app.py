@@ -1,4 +1,3 @@
-# app.py
 import streamlit as st
 from document_loader import load_document
 from embedding_store import chunk_text, embed_and_store

@@ -22,7 +22,7 @@ class RAGAgent:
         if self.use_llm:
             api_key = os.getenv("GOOGLE_API_KEY")   # <-- using .env variable
             if not api_key:
-                raise ValueError("⚠ GOOGLE_API_KEY environment variable is not set.")
+                raise ValueError("GOOGLE_API_KEY environment variable is not set.")
             genai.configure(api_key=api_key)
             self.llm = genai.GenerativeModel("gemini-1.5-flash")  # free Gemini model
         else:
@@ -105,77 +105,4 @@ class RAGAgent:
 
 
         
-
-    # def answer(self, query: str, top_k: int = 10, n_best: int = 3) -> List[Dict]:
-    #     candidates = sorted(
-    #         self.retrieve(query, top_k=top_k),
-    #         key=lambda x: x.get("distance", 1.0)
-    #     )
-
-    #     if not candidates:
-    #         return [{"answer": "No relevant documents found.", "source": None, "reason": None, "distance": None}]
-
-    #     results = []
-    #     seen_texts = set()
-
-    #     for c in candidates:
-    #         doc_text = c["document"].strip()
-    #         if doc_text in seen_texts:
-    #             continue
-    #         seen_texts.add(doc_text)
-
-    #         source = c["metadata"].get("source", "unknown")
-    #         chunk_index = c["metadata"].get("chunk_index", -1)
-    #         distance = c.get("distance", None)
-    #         reason = f"Retrieved from chunk {chunk_index} in {source} (distance={distance:.4f})."
-
-    #         results.append({
-    #             "answer": doc_text,
-    #             "source": source,
-    #             "reason": reason,
-    #             "distance": distance
-    #         })
-
-    #         if len(results) >= n_best:
-    #             break
-
-    #     # If not enough results, pad with placeholders
-    #     while len(results) < n_best:
-    #         results.append({
-    #             "answer": "No more relevant answers found.",
-    #             "source": None,
-    #             "reason": None,
-    #             "distance": None
-    #         })
-
-    #     # 🔹 Gemini synthesis at top (optional)
-    #     # if self.use_llm and self.llm and results:
-    #     #     context = " ".join([r["answer"] for r in results if r['answer'] != "No more relevant answers found."])
-    #     #     prompt = f"Answer the question based only on this context:\n{context}\n\nQ: {query}\nA:"
-    #     #     response = self.llm.generate_content(prompt)
-    #     #     llm_answer = response.text if hasattr(response, "text") else str(response)
-
-    #     #     results.insert(0, {
-    #     #         "answer": llm_answer,
-    #     #         "source": "Synthesized from retrieved docs",
-    #     #         "reason": "Generated using Gemini (gemini-1.5-flash)",
-    #     #         "distance": None
-    #     #     })
-    #     # Instead of combining all chunks for context, feed LLM only the top relevant chunk
-    #     if self.use_llm and self.llm and results:
-    #         top_context = results[0]["answer"]  # use only the top chunk
-    #         prompt = f"Answer the question based only on this context:\n{top_context}\n\nQ: {query}\nA:"
-    #         response = self.llm.generate_content(prompt)
-    #         llm_answer = response.text if hasattr(response, "text") else str(response)
-
-    #         results.insert(0, {
-    #             "answer": llm_answer,
-    #             "source": "Synthesized from retrieved docs",
-    #             "reason": "Generated using Gemini (gemini-1.5-flash)",
-    #             "distance": None
-    #         })
-
-
-    #     return results[:n_best] if not self.use_llm else results[:n_best+1]
-    
  
