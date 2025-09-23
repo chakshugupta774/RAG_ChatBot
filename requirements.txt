@@ -1,0 +1,11 @@
+streamlit
+pdfplumber
+python-docx
+pandas
+openpyxl
+python-pptx
+transformers
+sentence-transformers
+chromadb
+langchain
+openai

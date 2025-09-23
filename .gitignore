@@ -1,0 +1,3 @@
+.env
+chroma_vectorstore
+__pycache__
