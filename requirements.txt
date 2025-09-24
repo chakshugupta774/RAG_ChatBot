@@ -10,3 +10,4 @@ chromadb
 langchain
 openai
 langchain-community
+pysqlite3-binary

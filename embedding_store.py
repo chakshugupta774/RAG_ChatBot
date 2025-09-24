@@ -1,9 +1,17 @@
 import uuid
+import sys
 from typing import List
 from transformers import AutoTokenizer
 # from langchain_huggingface import HuggingFaceEmbeddings
-from langchain.embeddings import HuggingFaceEmbeddings
+# from langchain.embeddings import HuggingFaceEmbeddings
+from langchain_community.embeddings import HuggingFaceEmbeddings
 import chromadb
+
+try:
+    __import__("pysqlite3")
+    sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
+except ImportError:
+    pass
 
 CHROMA_DB_DIR = "chroma_vectorstore"
 COLLECTION_NAME = "rag_collection"
