@@ -1,7 +1,8 @@
 import uuid
 from typing import List
 from transformers import AutoTokenizer
-from langchain_huggingface import HuggingFaceEmbeddings
+# from langchain_huggingface import HuggingFaceEmbeddings
+from langchain.embeddings import HuggingFaceEmbeddings
 import chromadb
 
 CHROMA_DB_DIR = "chroma_vectorstore"
