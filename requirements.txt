@@ -8,6 +8,8 @@ transformers
 sentence-transformers
 chromadb
 langchain
-openai
 langchain-community
+openai
 pysqlite3-binary
+google-generativeai
+python-dotenv
