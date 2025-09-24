@@ -114,4 +114,3 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 - [ChromaDB](https://www.trychroma.com/) for vector database.
 - [Sentence Transformers](https://www.sbert.net/) for embeddings.
 - [Streamlit](https://streamlit.io/) for interactive UI.
-
