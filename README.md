@@ -1,19 +1,18 @@
 # RAGChatbot
 
 
-
-RAGChatbot is a **Retrieval-Augmented Generation (RAG)** chatbot that allows users to upload documents (PDF, DOCX, TXT, CSV, XLSX, PPTX) and ask questions. The chatbot retrieves relevant document chunks using embeddings and provides answers, optionally using **Google Gemini** for synthesis.
+A Retrieval-Augmented Generation (RAG) Chatbot that allows users to query uploaded documents (PDF, DOCX, TXT, CSV, PPTX, XLSX) and get accurate answers with context. The chatbot leverages **vector embeddings** for retrieval and optionally uses **Google Gemini LLM** for synthesized responses.
 
 ---
 
 ## Features
 
-- Upload multiple document types: PDF, DOCX, TXT, CSV, XLSX, PPTX.
-- Retrieve relevant document chunks using embeddings.
-- Generate multiple distinct responses (`Answer 1`, `Answer 2`, etc.) from different chunks.
-- Optional LLM synthesis using **Google Gemini API** for a concise, context-aware answer.
-- Displays source and reasoning for each answer.
-- Built with **Streamlit** for an interactive web interface.
+- 📄 Upload multiple documents for indexing.
+- 🧠 Retrieve relevant chunks using semantic similarity.
+- 🤖 Optional Google Gemini synthesis for generating context-aware answers.
+- ⚡ Graceful handling of Gemini quota limits; always returns retrieved answers even if LLM fails.
+- 🎯 Shows similarity score and source document for each response.
+- 💻 Simple Streamlit interface for interactive Q&A.
 
 ---
 
@@ -22,7 +21,7 @@ RAGChatbot is a **Retrieval-Augmented Generation (RAG)** chatbot that allows use
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/RAGChatbot.git
+git clone https://github.com/chakshugupta774/RAGChatbot.git
 cd RAGChatbot
 ```
 
@@ -31,8 +30,6 @@ cd RAGChatbot
 ```bash
 pip install -r requirements.txt
 ```
-
-> Required packages: `streamlit`, `google-generativeai`, `chromadb`, `sentence-transformers`, `python-dotenv`
 
 3. Create a `.env` file and add your **Google Gemini API key**:
 
@@ -50,10 +47,10 @@ Run the Streamlit app:
 streamlit run app.py
 ```
 
-1. Open the browser interface.
-2. Upload your document(s).
-3. Enter a question in the input box.
-4. View multiple answers with sources, reasoning, and scores.
+1. Open the app in your browser.
+2. Upload your documents (PDF, DOCX, TXT, CSV, PPTX, XLSX).
+3. Configure Top-k retrieval, Number of answers, Similarity threshold, and optionally enable Gemini synthesis.
+4. Enter your query and get responses with source and similarity score.
 
 ---
 
@@ -62,51 +59,31 @@ streamlit run app.py
 ```
 RAGChatbot/
 │
-├─ app.py                # Streamlit interface
-├─ rag_agent.py          # RAGAgent class (retrieval + answer logic)
-├─ embedding_store.py    # Vector embedding and storage functions
-├─ requirements.txt      # Project dependencies
-└─ README.md
+├── app.py                 # Streamlit app
+├── my_rag_agent.py        # RAG Agent with optional Gemini integration
+├── embedding_store.py     # Chroma vector store + embeddings
+├── document_loader.py     # Utility for reading uploaded files
+├── requirements.txt       # Python dependencies
+└── README.md
+
 ```
 
----
 
-## Example
+## How it Works
 
-**Question:** `What are Azure networking services?`
+1. Document Indexing: Uploaded documents are split into meaningful chunks and embedded using sentence-transformers/all-MiniLM-L6-v2.
+2. Vector Store: Chunks are stored in a persistent ChromaDB vector store.
+3. Query: User question is embedded and matched with the top-k most similar chunks.
+4. Optional LLM: Gemini LLM synthesizes a final answer based on the retrieved chunks.
+5. Output: Returns answers along with source document and similarity score.
 
-**Answers:**
 
-- **Answer 1:** `Azure Virtual Network, Load Balancer, VPN Gateway, and CDN provide secure, fast, and scalable networking.`\
-  *Source: Microsoft Azure Overview\.txt | Chunk 1*
+## Notes
 
-- **Answer 2:** `Azure Networking services include ExpressRoute, Azure DNS, and Traffic Manager for high availability and low latency.`\
-  *Source: Microsoft Azure Overview\.txt | Chunk 2*
+1. Free-tier Gemini quota: 50 requests/day. Quota resets at 00:00 UTC (05:30 AM IST).
+2. If quota is exceeded, only retrieved answers from the vector store will be shown.
+3. Supports documents in multiple formats for flexible Q&A.
 
-- **Answer 3:** `Azure Application Gateway and Front Door optimize traffic distribution and improve web app performance.`\
-  *Source: Microsoft Azure Overview\.txt | Chunk 3*
-
-> Optional synthesized answer using Google Gemini can appear at the top.
-
----
-
-## Contributing
-
-Contributions are welcome!
-
-1. Fork the repository.
-2. Create a new branch: `git checkout -b feature/your-feature`.
-3. Commit your changes: `git commit -m 'Add new feature'`.
-4. Push to the branch: `git push origin feature/your-feature`.
-5. Open a Pull Request.
-
----
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
----
 
 ## Acknowledgements
 
